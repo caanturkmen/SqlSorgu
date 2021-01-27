@@ -19,3 +19,44 @@ select COUNT(*) from Products  --count demek sayısı demek yani sorguda tüm pr
 select CategoryID,COUNT(*) from Products group by CategoryID  --group by yaptığın için her grup için ayrı ayrı count hesaplanıyor
 
 select CategoryID,COUNT(*) from Products group by CategoryID having COUNT(*)<10  --sorgudan tablo içindeki fiyatı 10dan küçükler için
+
+
+--MOLA--
+
+
+select Products.ProductID,Products.ProductName,Products.UnitPrice,Categories.CategoryName  --sınırlama yapıyoruz
+from Products inner join Categories   --inner join  tabloları birleştirme anlamına gelir
+on Products.CategoryID = Categories.CategoryID   --aynıysa demek
+where Products.UnitPrice>10  --fiyatı 10dan büyük olanlar
+
+
+--DTO 
+
+Select * from Products p inner join [Order Details] od  --inner join sadece eşleşen verileri getirir....
+on p.ProductID = od.ProductID     
+
+
+
+
+Select * from Products p left join [Order Details] od  --solda olup sağda olmayanları getir demek
+on p.ProductID = od.ProductID  
+
+
+
+select * from Customers c inner join Orders o 
+on c.CustomerID = o.CustomerID                 --830 sipariş var
+
+
+
+select * from Customers c left join Orders o 
+on c.CustomerID = o.CustomerID                 --830 sipariş vardı müşterilerde olup siparişte olmayanlarıda getir
+                                               --832 çıktı 2 kişi sipariş yapmamış bişi almamış :D
+where o.CustomerID is null        --birleştirilen tablodan soldaki tablodaki ürün almamış kişileri yazdır 
+                                  --is null    boş demek    NOT: PK ya uyarlanacak hep null
+
+
+
+Select * from Products p inner join [Order Details] od  --Birden fazla tabloyu inner join etmek
+on p.ProductID = od.ProductID  
+inner join Orders o
+on o.OrderID= od.OrderID
